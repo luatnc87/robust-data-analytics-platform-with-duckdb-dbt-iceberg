@@ -1,0 +1,7 @@
+sources:
+  - name: stackoverflow_survey_source
+    tables:
+      - name: surveys
+        meta:
+          external_location: "read_csv('../../data/survey_results_public.csv', AUTO_DETECT=TRUE)"
+          formatter: oldstyle

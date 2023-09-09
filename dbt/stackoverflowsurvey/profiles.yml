@@ -1,0 +1,6 @@
+stackoverflow:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: './stackoverflow.duckdb'
