@@ -33,8 +33,65 @@ Apache Superset is a modern, open-source BI tool that enables data exploration, 
 - **Community and Extensibility**: As an open-source project, Apache Superset benefits from a vibrant community that contributes plugins, connectors, and additional features, enhancing its capabilities.
 - **SQL Support**: Superset supports SQL queries, allowing users to execute custom queries and create complex calculated fields.
 
-# 
+## Setting up DuckDB, dbt, Superset with Docker Compose
+### Setting up DuckDB
 
+### Setting up dbt
+Firstly, We need to install *dbt-core* and *dbt-duckdb* libraries, then init a dbt project.
+```yaml
+# create a virtual environment
+cd dbt
+python -m venv .env
+source .env/bin/activate
 
+# install libraries
+pip install -r requirements.txt
+
+# check version
+dbt --version
+```
+Then we initialize a dbt project with the name *stackoverflowsurvey* and create a *profiles.yml* with the following content:
+```yaml
+stackoverflow:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: '/data/duckdb/stackoverflow.duckdb' # path to local DuckDB database file
+```
+Run the following commands to properly check configuration:
+```bash
+# We need to point out the directory of the profiles.yml file, because we are not using the default location.
+dbt debug --profiles-dir .
+```
+
+### Setting up Superset
+Once the **setup.sh** command has completed, visit *http://localhost:8088* to access the Superset UI. Enter **admin** as username and password. Choose **DuckDB** from the supported databases drop-down. Then set up a connection to DuckDB database.
+
+<div align="center">
+    <table >
+        <tr>
+            <td><img src="images/superset_duckdb_connection.png" /></td>
+            <td><img src="images/superset_duckdb_connection_advanced_config.png" /></td>
+        </tr>
+    </table>
+</div>
+
+> **NOTE**: Provide path to a duckdb database on disk in the url, e.g., *duckdb:////Users/whoever/path/to/duck.db*.
+
+We combie the DuckDB's database path file that exposed in *superset/docker/docker-compose.yml* file
+```bash
+x-superset-volumes:
+  &superset-volumes
+  - /data/duckdb:/app/duckdb
+```
+And the DuckDB database name that defined in *dbt/stackoverflowsurvey/profiles.yml*.
+```yaml
+path: '/data/duckdb/stackoverflow.duckdb'
+```
+So, we have the final uri to connection between Superset and DuckDB as below:
+```bash
+duckdb:///duckdb/stackoverflow.duckdb
+```
 
 

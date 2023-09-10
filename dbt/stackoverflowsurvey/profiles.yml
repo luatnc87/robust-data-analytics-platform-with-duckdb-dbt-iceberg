@@ -3,4 +3,4 @@ stackoverflow:
   outputs:
     dev:
       type: duckdb
-      path: '/data/duckdb/stackoverflow.duckdb'
+      path: '/data/duckdb/stackoverflow.duckdb' # path to local DuckDB database file
