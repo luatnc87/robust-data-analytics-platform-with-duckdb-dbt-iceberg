@@ -33,10 +33,11 @@ Apache Superset is a modern, open-source BI tool that enables data exploration, 
 - **Community and Extensibility**: As an open-source project, Apache Superset benefits from a vibrant community that contributes plugins, connectors, and additional features, enhancing its capabilities.
 - **SQL Support**: Superset supports SQL queries, allowing users to execute custom queries and create complex calculated fields.
 
-## Setting up DuckDB, dbt, Superset with Docker Compose
-### Setting up DuckDB
+# Setting up DuckDB, dbt, Superset with Docker Compose
+## Setting up DuckDB
+DuckDB will be installed as a library with dbt and Superset in the next session.
 
-### Setting up dbt
+## Setting up dbt
 Firstly, We need to install *dbt-core* and *dbt-duckdb* libraries, then init a dbt project.
 ```yaml
 # create a virtual environment
@@ -44,7 +45,7 @@ cd dbt
 python -m venv .env
 source .env/bin/activate
 
-# install libraries
+# install libraries: dbt-core and dbt-duckdb
 pip install -r requirements.txt
 
 # check version
@@ -89,9 +90,57 @@ And the DuckDB database name that defined in *dbt/stackoverflowsurvey/profiles.y
 ```yaml
 path: '/data/duckdb/stackoverflow.duckdb'
 ```
-So, we have the final uri to connection between Superset and DuckDB as below:
+So, we have the final uri to connect between Superset and DuckDB as below:
 ```bash
 duckdb:///duckdb/stackoverflow.duckdb
 ```
+
+With Superset, the engine needs to be configured to open DuckDB in “read-only” mode. Otherwise, only one query can run at a time (simultaneous queries will cause locks). This also prevents refreshing the Superset dashboard while the pipeline is running.
+
+# Loading sources
+In this showcase, we use the [Stack Overflow Annual Developer Survey](https://insights.stackoverflow.com/survey) data set. For simplicity we will only use the [2023](https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d08a20488c.zip/stack-overflow-developer-survey-2023.zip) data set.
+We need to manually download this one and extract it into *data* directory.
+
+# Build models with dbt
+## Defining data source
+We declare the data source in *stackoverflowsurvey/models/source.yml* file with following content:
+```yaml
+sources:
+  - name: stackoverflow_survey_source
+    tables:
+      - name: surveys
+        meta:
+          external_location: "read_csv('../../data/survey_results_public.csv', AUTO_DETECT=TRUE)" # automatically parser and detect schema
+          formatter: oldstyle
+```
+## Defining models
+In this guide, we only define a very simple model, because data is ready to visualize on Superset.
+```sql
+{{ config(materialized='table') }}
+
+SELECT *
+FROM {{ source('stackoverflow_survey_source', 'surveys')}}
+```
+# Connecting Superset
+Once the dbt models are built, the data visualization can begin. An admin user must be created in superset in order to log in.
+
+# Conclusion
+In this comprehensive guide, we've demonstrated how to construct a sophisticated analytics platform that leverages the combined power of DuckDB, DBT, Iceberg, and Apache Superset. This platform empowers organizations to seamlessly ingest, transform, manage, visualize, and analyze data to extract actionable insights.
+
+Key Components:
+- **DuckDB**: Our high-performance, SQL-compatible, in-memory database serves as the foundation for efficient data storage and retrieval, enabling lightning-fast analytical queries.
+- **dbt**: DBT simplifies data transformation and modeling, allowing for the creation of modular, version-controlled data pipelines that enhance data quality and maintainability.
+- **Iceberg**: Iceberg manages data lakes with ease, offering schema evolution, ACID transactions, and time-travel capabilities, ensuring data integrity and scalability in large-scale analytics environments.
+- **Apache Superset**: Apache Superset enhances the platform by providing a modern, open-source BI tool for data exploration, visualization, and interactive dashboard creation. Its connectivity options, security features, and SQL support empower users to gain insights from data with ease.
+Together, these tools create a powerful and flexible analytics platform, enabling organizations to navigate the data landscape with confidence, derive valuable insights, and make informed decisions. Whether you're dealing with structured or unstructured data, this platform equips you with the tools needed to turn raw data into actionable intelligence, driving business success and innovation.
+
+## Supporting Links
+* <a href="https://insights.stackoverflow.com/survey" target="_blank">Stack Overflow Annual Developer Survey</a>
+* <a href="https://duckdb.org/2022/10/12/modern-data-stack-in-a-box.html" target="_blank">Modern Data Stack in a Box with DuckDB</a>
+* <a href="https://github.com/jwills/dbt-duckdb" target="_blank">dbt adapter for DuckDB</a>
+
+
+
+
 
 

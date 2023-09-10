@@ -3,5 +3,5 @@ sources:
     tables:
       - name: surveys
         meta:
-          external_location: "read_csv('../../data/survey_results_public.csv', AUTO_DETECT=TRUE)"
+          external_location: "read_csv('../../data/survey_results_public.csv', AUTO_DETECT=TRUE)" # automatically parser and detect schema
           formatter: oldstyle
