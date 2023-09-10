@@ -126,12 +126,13 @@ Once the dbt models are built, the data visualization can begin. An admin user m
 
 # Conclusion
 In this comprehensive guide, we've demonstrated how to construct a sophisticated analytics platform that leverages the combined power of DuckDB, DBT, Iceberg, and Apache Superset. This platform empowers organizations to seamlessly ingest, transform, manage, visualize, and analyze data to extract actionable insights.
-
+![superset_dashboard.png](images%2Fsuperset_dashboard.png)
 Key Components:
 - **DuckDB**: Our high-performance, SQL-compatible, in-memory database serves as the foundation for efficient data storage and retrieval, enabling lightning-fast analytical queries.
 - **dbt**: DBT simplifies data transformation and modeling, allowing for the creation of modular, version-controlled data pipelines that enhance data quality and maintainability.
 - **Iceberg**: Iceberg manages data lakes with ease, offering schema evolution, ACID transactions, and time-travel capabilities, ensuring data integrity and scalability in large-scale analytics environments.
 - **Apache Superset**: Apache Superset enhances the platform by providing a modern, open-source BI tool for data exploration, visualization, and interactive dashboard creation. Its connectivity options, security features, and SQL support empower users to gain insights from data with ease.
+
 Together, these tools create a powerful and flexible analytics platform, enabling organizations to navigate the data landscape with confidence, derive valuable insights, and make informed decisions. Whether you're dealing with structured or unstructured data, this platform equips you with the tools needed to turn raw data into actionable intelligence, driving business success and innovation.
 
 ## Supporting Links
