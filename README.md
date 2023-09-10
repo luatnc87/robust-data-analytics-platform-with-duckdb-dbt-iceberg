@@ -124,10 +124,10 @@ FROM {{ source('stackoverflow_survey_source', 'surveys')}}
 # Connecting Superset
 Once the dbt models are built, the data visualization can begin. An admin user must be created in superset in order to log in.
 
-# Conclusion
-In this comprehensive guide, we've demonstrated how to construct a sophisticated analytics platform that leverages the combined power of DuckDB, DBT, Iceberg, and Apache Superset. This platform empowers organizations to seamlessly ingest, transform, manage, visualize, and analyze data to extract actionable insights.
 ![superset_dashboard.png](images%2Fsuperset_dashboard.png)
 
+# Conclusion
+In this comprehensive guide, we've demonstrated how to construct a sophisticated analytics platform that leverages the combined power of DuckDB, DBT, Iceberg, and Apache Superset. This platform empowers organizations to seamlessly ingest, transform, manage, visualize, and analyze data to extract actionable insights.
 Key Components:
 - **DuckDB**: Our high-performance, SQL-compatible, in-memory database serves as the foundation for efficient data storage and retrieval, enabling lightning-fast analytical queries.
 - **dbt**: DBT simplifies data transformation and modeling, allowing for the creation of modular, version-controlled data pipelines that enhance data quality and maintainability.
