@@ -1,6 +1,8 @@
 # Building a robust data analytics platform with the DuckDB, dbt, Iceberg and Superset
 Modern analytics platforms require robust data storage, transformation, and management tools. DuckDB provides a simple, high-performance, columnar analytical database. DBT simplifies data transformation and modeling, and Iceberg offers scalable data lake management capabilities. Combining these tools can create a powerful and flexible analytics platform.
 
+![architecture.png](images%2Farchitecture.png)
+
 # Understanding the tools
 ## DuckDB
 DuckDB is an in-memory, columnar analytical database that stands out for its speed, efficiency, and compatibility with SQL standard. Here is a more in-deepth look at its features:
