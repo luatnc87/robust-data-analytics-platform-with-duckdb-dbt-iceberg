@@ -3,4 +3,4 @@ stackoverflow:
   outputs:
     dev:
       type: duckdb
-      path: './stackoverflow.duckdb'
+      path: '/data/duckdb/stackoverflow.duckdb'
