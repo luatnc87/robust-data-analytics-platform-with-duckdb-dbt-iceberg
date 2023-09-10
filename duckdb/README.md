@@ -1,0 +1,1 @@
+> **NOTE**: DuckDB will be used as an embedded library installed with dbt project and Superset.

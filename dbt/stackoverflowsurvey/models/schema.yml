@@ -1,0 +1,94 @@
+version: 2
+
+models:
+  - name: survey_results
+    description: "The result of StackOverflow's survey in 2023."
+    columns:
+      - name: ResponseId
+        description: "The response Id"
+        tests:
+          - unique
+          - not_null
+      - name: Q120
+      - name: MainBranch
+      - name: Age
+      - name: Employment
+      - name: RemoteWork
+      - name: CodingActivities
+      - name: EdLevel
+      - name: LearnCode
+      - name: LearnCodeOnline
+      - name: LearnCodeCoursesCert
+      - name: YearsCode
+      - name: YearsCodePro
+      - name: DevType
+      - name: OrgSize
+      - name: PurchaseInfluence
+      - name: TechList
+      - name: BuyNewTool
+      - name: Country
+      - name: Currency
+      - name: CompTotal
+      - name: LanguageHaveWorkedWith
+      - name: LanguageWantToWorkWith
+      - name: DatabaseHaveWorkedWith
+      - name: DatabaseWantToWorkWith
+      - name: PlatformHaveWorkedWith
+      - name: PlatformWantToWorkWith
+      - name: WebframeHaveWorkedWith
+      - name: WebframeWantToWorkWith
+      - name: MiscTechHaveWorkedWith
+      - name: MiscTechWantToWorkWith
+      - name: ToolsTechHaveWorkedWith
+      - name: ToolsTechWantToWorkWith
+      - name: NEWCollabToolsHaveWorkedWith
+      - name: NEWCollabToolsWantToWorkWith
+      - name: OpSysPersonal use
+      - name: OpSysProfessional use
+      - name: OfficeStackAsyncHaveWorkedWith
+      - name: OfficeStackAsyncWantToWorkWith
+      - name: OfficeStackSyncHaveWorkedWith
+      - name: OfficeStackSyncWantToWorkWith
+      - name: AISearchHaveWorkedWith
+      - name: AISearchWantToWorkWith
+      - name: AIDevHaveWorkedWith
+      - name: AIDevWantToWorkWith
+      - name: NEWSOSites
+      - name: SOVisitFreq
+      - name: SOAccount
+      - name: SOPartFreq
+      - name: SOComm
+      - name: SOAI
+      - name: AISelect
+      - name: AISent
+      - name: AIAcc
+      - name: AIBen
+      - name: AIToolInterested in Using
+      - name: AIToolCurrently Using
+      - name: AIToolNot interested in Using
+      - name: AINextVery different
+      - name: AINextNeither different nor similar
+      - name: AINextSomewhat similar
+      - name: AINextVery similar
+      - name: AINextSomewhat different
+      - name: TBranch
+      - name: ICorPM
+      - name: WorkExp
+      - name: Knowledge_1
+      - name: Knowledge_2
+      - name: Knowledge_3
+      - name: Knowledge_4
+      - name: Knowledge_5
+      - name: Knowledge_6
+      - name: Knowledge_7
+      - name: Knowledge_8
+      - name: Frequency_1
+      - name: Frequency_2
+      - name: Frequency_3
+      - name: TimeSearching
+      - name: TimeAnswering
+      - name: ProfessionalTech
+      - name: Industry
+      - name: SurveyLength
+      - name: SurveyEase
+      - name: ConvertedCompYearly
