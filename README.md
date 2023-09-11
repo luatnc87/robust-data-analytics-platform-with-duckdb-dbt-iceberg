@@ -76,7 +76,7 @@ Run following commands to set up the Superset service:
 ```bash
 cd superset
 # run docker compose command to start services of the Superset
-# the libraries declared in 'requirements-local.txt' file will also be installed too
+# the libraries declared in 'requirements-local.txt' file will also be installed too (including duckdb-engine)
 docker-compose up --detach
 ```
 
