@@ -1,4 +1,4 @@
-# Building a robust data analytics platform with the DuckDB, dbt, Iceberg and Superset
+# Building a robust yet simple data analytics platform with DuckDB, dbt, Iceberg, and Superset
 Modern analytics platforms require robust data storage, transformation, and management tools. DuckDB provides a simple, high-performance, columnar analytical database. DBT simplifies data transformation and modeling, and Iceberg offers scalable data lake management capabilities. Combining these tools can create a powerful and flexible analytics platform.
 
 ![architecture.png](images%2Farchitecture.png)
@@ -26,6 +26,7 @@ Iceberg is a table format designed for managing data lakes, offering several key
 - **Optimized File Storage**: Iceberg optimizes file storage by using techniques like metadata management, partitioning, and file pruning. This results in efficient data storage and retrieval.
 - **Connectivity**: Iceberg supports various storage connectors, including Apache Hadoop HDFS, Amazon S3, and Azure Data Lake Storage, making it versatile and compatible with different data lake platforms.
 
+> NOTE: *Iceberg is not currently utilized in this showcase, but it will be added soon.*
 ## Apache Superset
 Apache Superset is a modern, open-source BI tool that enables data exploration, visualization, and interactive dashboards. It connects to various data sources and is designed to empower users to explore data and create dynamic reports.
 - **Data Visualization**: Apache Superset allows users to create interactive visualizations, including charts, graphs, and geographic maps, to explore and understand data.
@@ -41,7 +42,7 @@ DuckDB will be installed as a library with dbt and Superset in the next session.
 
 ## Setting up dbt
 Firstly, We need to install *dbt-core* and *dbt-duckdb* libraries, then init a dbt project.
-```yaml
+```bash
 # create a virtual environment
 cd dbt
 python -m venv .env
@@ -53,6 +54,7 @@ pip install -r requirements.txt
 # check version
 dbt --version
 ```
+
 Then we initialize a dbt project with the name *stackoverflowsurvey* and create a *profiles.yml* with the following content:
 ```yaml
 stackoverflow:
@@ -62,6 +64,7 @@ stackoverflow:
       type: duckdb
       path: '/data/duckdb/stackoverflow.duckdb' # path to local DuckDB database file
 ```
+
 Run the following commands to properly check configuration:
 ```bash
 # We need to point out the directory of the profiles.yml file, because we are not using the default location.
@@ -69,7 +72,15 @@ dbt debug --profiles-dir .
 ```
 
 ### Setting up Superset
-Once the **setup.sh** command has completed, visit *http://localhost:8088* to access the Superset UI. Enter **admin** as username and password. Choose **DuckDB** from the supported databases drop-down. Then set up a connection to DuckDB database.
+Run following commands to set up the Superset service:
+```bash
+cd superset
+# run docker compose command to start services of the Superset
+# the libraries declared in 'requirements-local.txt' file will also be installed too
+docker-compose up --detach
+```
+
+Visit *http://localhost:8088* to access the Superset UI. Enter **admin** as username and password. Choose **DuckDB** from the supported databases drop-down. Then set up a connection to DuckDB database.
 
 <div align="center">
     <table >
@@ -82,28 +93,27 @@ Once the **setup.sh** command has completed, visit *http://localhost:8088* to ac
 
 > **NOTE**: Provide path to a duckdb database on disk in the url, e.g., *duckdb:////Users/whoever/path/to/duck.db*.
 
-We combie the DuckDB's database path file that exposed in *superset/docker/docker-compose.yml* file
+We combine the DuckDB database path file exposed in *superset/docker/docker-compose.yml* file
 ```bash
 x-superset-volumes:
   &superset-volumes
   - /data/duckdb:/app/duckdb
 ```
-And the DuckDB database name that defined in *dbt/stackoverflowsurvey/profiles.yml*.
+with the DuckDB database name defined in *dbt/stackoverflowsurvey/profiles.yml*.
 ```yaml
 path: '/data/duckdb/stackoverflow.duckdb'
 ```
-So, we have the final uri to connect between Superset and DuckDB as below:
+So, below, we have the final URI to establish a connection between Superset and DuckDB:
 ```bash
 duckdb:///duckdb/stackoverflow.duckdb
 ```
 
 With Superset, the engine needs to be configured to open DuckDB in “read-only” mode. Otherwise, only one query can run at a time (simultaneous queries will cause locks). This also prevents refreshing the Superset dashboard while the pipeline is running.
 
-# Loading sources
-In this showcase, we use the [Stack Overflow Annual Developer Survey](https://insights.stackoverflow.com/survey) data set. For simplicity we will only use the [2023](https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d08a20488c.zip/stack-overflow-developer-survey-2023.zip) data set.
-We need to manually download this one and extract it into *data* directory.
+# Loading source
+In this showcase, we are using the [Stack Overflow Annual Developer Survey](https://insights.stackoverflow.com/survey) data set. To simplify maters, we will focus solely on the [2023](https://cdn.stackoverflow.co/files/jo7n4k8s/production/49915bfd46d0902c3564fd9a06b509d08a20488c.zip/stack-overflow-developer-survey-2023.zip) data set, which needs to be manually downloaded and extracted into the *PROJECT_HOME/data* directory.
 
-# Build models with dbt
+# Building models with dbt
 ## Defining data source
 We declare the data source in *stackoverflowsurvey/models/source.yml* file with following content:
 ```yaml
@@ -115,8 +125,8 @@ sources:
           external_location: "read_csv('../../data/survey_results_public.csv', AUTO_DETECT=TRUE)" # automatically parser and detect schema
           formatter: oldstyle
 ```
-## Defining models
-In this guide, we only define a very simple model, because data is ready to visualize on Superset.
+## Building models
+For demonstration purposes only, we have created a very simple model with the following content:
 ```sql
 {{ config(materialized='table') }}
 
